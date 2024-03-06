@@ -1,5 +1,7 @@
 package com.cursos.api.springsecuritycourse.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +15,6 @@ import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationRequest;
 import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationResponse;
 import com.cursos.api.springsecuritycourse.service.auth.AuthenticationService;
 
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")

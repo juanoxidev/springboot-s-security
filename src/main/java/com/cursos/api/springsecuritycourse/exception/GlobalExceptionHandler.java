@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.cursos.api.springsecuritycourse.dto.ApiError;
 
-import jakarta.servlet.http.HttpServletRequest;
 
 // controla excepciones
 @RestControllerAdvice

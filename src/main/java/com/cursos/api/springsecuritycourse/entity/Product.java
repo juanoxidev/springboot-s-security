@@ -2,7 +2,7 @@ package com.cursos.api.springsecuritycourse.entity;
 
 import java.math.BigDecimal;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -34,13 +34,14 @@ public class HttpSecurityConfig {
 		.sessionManagement(sessMagConfig -> sessMagConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		// indicamos que tipo de autentificacion vamos a usar
 		.authenticationProvider(daoAuthProvider)
+//		.addFilterBefore(jwtAuthenticationFilter, )
 		.authorizeHttpRequests(authReqConfig -> {
 			/*
 			 * Endpoints publicos
 			 */
-			authReqConfig.requestMatchers(HttpMethod.POST,"/customers").permitAll();
-			authReqConfig.requestMatchers(HttpMethod.POST,"/auth/authenticate").permitAll();
-			authReqConfig.requestMatchers(HttpMethod.GET,"/auth/validate-token").permitAll();
+			authReqConfig.antMatchers(HttpMethod.POST,"/customers").permitAll();
+			authReqConfig.antMatchers(HttpMethod.POST,"/auth/authenticate").permitAll();
+			authReqConfig.antMatchers(HttpMethod.GET,"/auth/validate-token").permitAll();
 			/*
 			 * Todos los demas endpoints deben ser con usuario logueado
 			 */

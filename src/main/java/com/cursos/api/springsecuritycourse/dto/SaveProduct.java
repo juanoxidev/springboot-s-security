@@ -3,9 +3,8 @@ package com.cursos.api.springsecuritycourse.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
+
 import lombok.Data;
 
 @Data

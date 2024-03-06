@@ -2,7 +2,8 @@ package com.cursos.api.springsecuritycourse.dto;
 
 import java.io.Serializable;
 
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Size;
+
 import lombok.Data;
 
 @Data

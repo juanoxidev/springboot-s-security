@@ -12,7 +12,7 @@ import com.cursos.api.springsecuritycourse.dto.RegisteredUser;
 import com.cursos.api.springsecuritycourse.dto.SaveUser;
 import com.cursos.api.springsecuritycourse.service.auth.AuthenticationService;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 
 @RestController

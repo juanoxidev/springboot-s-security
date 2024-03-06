@@ -21,7 +21,7 @@ import com.cursos.api.springsecuritycourse.entity.Category;
 import com.cursos.api.springsecuritycourse.entity.Product;
 import com.cursos.api.springsecuritycourse.service.ProductService;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/products")

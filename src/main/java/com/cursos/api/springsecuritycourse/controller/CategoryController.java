@@ -1,7 +1,7 @@
 package com.cursos.api.springsecuritycourse.controller;
 
 import java.util.Optional;
-
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +20,6 @@ import com.cursos.api.springsecuritycourse.dto.SaveProduct;
 import com.cursos.api.springsecuritycourse.entity.Category;
 import com.cursos.api.springsecuritycourse.service.CategoryService;
 
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/categories")

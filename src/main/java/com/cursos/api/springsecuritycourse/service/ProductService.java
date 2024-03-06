@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import com.cursos.api.springsecuritycourse.dto.SaveProduct;
 import com.cursos.api.springsecuritycourse.entity.Product;
 
-import jakarta.validation.Valid;
 
 
 public interface ProductService {
