@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import com.cursos.api.springsecuritycourse.dto.SaveUser;
 import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationRequest;
 import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationResponse;
 import com.cursos.api.springsecuritycourse.entity.User;
+import com.cursos.api.springsecuritycourse.exception.ObjectNotFoundException;
 import com.cursos.api.springsecuritycourse.service.UserService;
 
 
@@ -103,5 +105,34 @@ public class AuthenticationService {
 			return false;
 		}
 	}
+
+public User findLoggedInUser() {
+	
+	/*
+	 * No tenemos que preguntar si es una instancia si solo manejamos un tipo de Authentificacion
+	 * Ya sabemos cual es el tipo de authentificacion que implementamos, en caso de ser mas de una forma
+	 * si hay que usar el instanceof.
+	 */
+	
+	/*
+	 * Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	 * A partir de JAVA16 se puede hacer el downcasting directamente en la declaracion de instance of 
+	 * if (auth instanceof UsernamePasswordAuthenticationToken authToken) {}
+	 */
+	/* if (auth instanceof UsernamePasswordAuthenticationToken) {
+	UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) auth;
+	*/
+		/*
+		 * Cuando seteamos el UsernamePasswordAuthenticationToken en JwtAuthenticationFilter 
+		 * indicamos que el principal era un String que contenia el username
+		 */
+	
+		UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+		String username = (String) authToken.getPrincipal();
+		return userService.findOneByUsername(username)
+				.orElseThrow(() -> new ObjectNotFoundException("User not found. Username: " + username));
+	}
+	
+
 
 }
