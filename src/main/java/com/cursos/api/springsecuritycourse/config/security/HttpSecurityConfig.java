@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -14,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.cursos.api.springsecuritycourse.config.security.filter.JwtAuthenticationFilter;
 
 import util.Role;
+import util.RolePermission;
 
 @Configuration
 // Crea componentes y los configura por default. Ej el authentication configuration que se usa para devolver el authentication manager por defecto (provider manager)
@@ -46,20 +48,75 @@ public class HttpSecurityConfig {
 		*/
 		.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 		.authorizeHttpRequests(authReqConfig -> {
-			/*
-			 * Endpoints publicos
-			 */
-			authReqConfig.antMatchers(HttpMethod.POST,"/customers").permitAll();
-			authReqConfig.antMatchers(HttpMethod.POST,"/auth/authenticate").permitAll();
-			authReqConfig.antMatchers(HttpMethod.GET,"/auth/validate-token").permitAll();
-			/*
-			 * Todos los demas endpoints deben ser con usuario logueado
-			 */
-			authReqConfig.anyRequest().authenticated();
+		
+			buildRequestMatchers(authReqConfig);
 		})
 		.build();
 		
 		return securityFilterChain;
 		
+	}
+
+	private void buildRequestMatchers(
+			AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {
+		/*
+		 * Autorizacion de endpoints de products
+		 * 
+		 */
+		
+		authReqConfig.antMatchers(HttpMethod.GET, "/products")
+		.hasAuthority(RolePermission.READ_ALL_PRODUCTS.name());
+		
+		authReqConfig.antMatchers(HttpMethod.GET, "/products/{productId}")
+		.hasAuthority(RolePermission.READ_ONE_PRODUCT.name());
+		
+		authReqConfig.antMatchers(HttpMethod.POST, "/products")
+		.hasAuthority(RolePermission.CREATE_ONE_PRODUCT.name());
+		
+		authReqConfig.antMatchers(HttpMethod.PUT, "/products/{productId}")
+		.hasAuthority(RolePermission.UPDATE_ONE_PRODUCT.name());
+		
+		authReqConfig.antMatchers(HttpMethod.PUT, "/products/{productId}/disabled")
+		.hasAuthority(RolePermission.DISABLE_ONE_PRODUCT.name());
+		
+		/*
+		 * Autorizacion de endpoints de categorias
+		 * 
+		 */
+		
+		authReqConfig.antMatchers(HttpMethod.GET, "/categories")
+		.hasAuthority(RolePermission.READ_ALL_CATEGORIES.name());
+		
+		authReqConfig.antMatchers(HttpMethod.GET, "/categories/{categoryId}")
+		.hasAuthority(RolePermission.READ_ONE_CATEGORY.name());
+		
+		authReqConfig.antMatchers(HttpMethod.POST, "/categories")
+		.hasAuthority(RolePermission.CREATE_ONE_CATEGORY.name());
+		
+		authReqConfig.antMatchers(HttpMethod.PUT, "/categories/{categoryId}")
+		.hasAuthority(RolePermission.UPDATE_ONE_CATEGORY.name());
+		
+		authReqConfig.antMatchers(HttpMethod.PUT, "/categories/{categoryId}/disabled")
+		.hasAuthority(RolePermission.DISABLE_ONE_CATEGORY.name());
+		
+		/*
+		 * Autorizacion de endpoint profile
+		 * 
+		 */
+		
+		authReqConfig.antMatchers(HttpMethod.GET, "/auth/profile")
+		.hasAuthority(RolePermission.READ_MY_PROFILE.name());
+		
+		/*
+		 * Endpoints publicos
+		 */
+		authReqConfig.antMatchers(HttpMethod.POST,"/customers").permitAll();
+		authReqConfig.antMatchers(HttpMethod.POST,"/auth/authenticate").permitAll();
+		authReqConfig.antMatchers(HttpMethod.GET,"/auth/validate-token").permitAll();
+		
+		/*
+		 * Todos los demas endpoints deben ser con usuario logueado
+		 */
+		authReqConfig.anyRequest().authenticated();
 	}
 }
