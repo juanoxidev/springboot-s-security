@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,6 +48,7 @@ public class AuthenticationController {
 		return ResponseEntity.ok(rsp);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMINISTRATOR','ASSISTANT_ADMINISTRATOR', 'CUSTOMER')")
 	@GetMapping("/profile")
 	public ResponseEntity<User> findMyProfile(){
 		User user = authenticationService.findLoggedInUser();
