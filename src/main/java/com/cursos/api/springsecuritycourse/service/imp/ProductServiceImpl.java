@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService  {
 	public Product disableOneById(Long productId) {
 		Product product = productRepository.findById(productId).orElseThrow(()-> new ObjectNotFoundException("Product not found with id " + productId));
 		product.setStatus(Product.ProductStatus.DISABLED);
-		return product;
+		return productRepository.save(product);
 	}
 
 	@Override
