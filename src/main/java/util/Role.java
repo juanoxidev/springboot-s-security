@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public enum Role {
 		
-	ROLE_ADMINISTRATOR(Arrays.asList(
+	ADMINISTRATOR(Arrays.asList(
 			RolePermission.READ_ALL_PRODUCTS
 			,RolePermission.READ_ONE_PRODUCT
 			,RolePermission.CREATE_ONE_PRODUCT
@@ -26,7 +26,7 @@ public enum Role {
 			,RolePermission.READ_MY_PROFILE
 			))
 	
-	, ROLE_ASSISTANT_ADMINISTRATOR(Arrays.asList(
+	, ASSISTANT_ADMINISTRATOR(Arrays.asList(
 			RolePermission.READ_ALL_PRODUCTS
 			,RolePermission.READ_ONE_PRODUCT
 			,RolePermission.UPDATE_ONE_PRODUCT
@@ -38,7 +38,7 @@ public enum Role {
 			,RolePermission.READ_MY_PROFILE
 			))
 	
-	, ROLE_CUSTOMER(Arrays.asList(
+	, CUSTOMER(Arrays.asList(
 			RolePermission.READ_MY_PROFILE
 			));
 	

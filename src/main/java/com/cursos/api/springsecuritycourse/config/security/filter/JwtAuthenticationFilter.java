@@ -39,9 +39,9 @@ public class JwtAuthenticationFilter extends  OncePerRequestFilter{
 		
 		if (!StringUtils.hasText(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
 			/*
-			 * Si el token comienza con bearer o no se encuentra en el header, entonces vamos a hacer que seejecuten todos
-			 * los demas filtros. Va a llegar un punto en el que un filtro va a necesitar el Authentication dentro del
-			 * Security Context Holder y no lo va a encontrar va a dar error
+			 * Si el token no comienza con bearer o no se encuentra en el header, entonces vamos a hacer que seejecuten todos
+			 * los demas filtros. Va a llegar un punto en el que un filtro va a necesitar el Authentication como el AuthenticacionFilter dentro del
+			 * Security Context Holder y no lo va a encontrar va a lanzar una excepcion
 			 */
 			filterChain.doFilter(request, response);
 			/*
