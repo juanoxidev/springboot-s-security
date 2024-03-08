@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
@@ -20,6 +21,7 @@ import util.RolePermission;
 @Configuration
 // Crea componentes y los configura por default. Ej el authentication configuration que se usa para devolver el authentication manager por defecto (provider manager)
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class HttpSecurityConfig {
 
 	// devolvemos un security filterchain que es construido gracias a un builder
@@ -47,10 +49,11 @@ public class HttpSecurityConfig {
 		 * A + peso tenga el filtro mas tarde se ejecuta, solo indica cuando se va a ejecutar el filtro que creamos.
 		*/
 		.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-		.authorizeHttpRequests(authReqConfig -> {
-		
-			buildRequestMatchers(authReqConfig);
-		})
+
+//		.authorizeHttpRequests(authReqConfig -> {
+//		
+//			buildRequestMatchers(authReqConfig);
+//		})
 		.build();
 		
 		return securityFilterChain;
@@ -58,20 +61,20 @@ public class HttpSecurityConfig {
 	}
 	
 
-	private void buildRequestMatchers(
-			AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {		
-		/*
-		 * Endpoints publicos
-		 */
-		authReqConfig.antMatchers(HttpMethod.POST,"/customers").permitAll();
-		authReqConfig.antMatchers(HttpMethod.POST,"/auth/authenticate").permitAll();
-		authReqConfig.antMatchers(HttpMethod.GET,"/auth/validate-token").permitAll();
-		
-		/*
-		 * Todos los demas endpoints deben ser con usuario logueado
-		 */
-		authReqConfig.anyRequest().authenticated();
-	}
+//	private void buildRequestMatchers(
+//			AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {		
+//		/*
+//		 * Endpoints publicos
+//		 */
+//		authReqConfig.antMatchers(HttpMethod.POST,"/customers").permitAll();
+//		authReqConfig.antMatchers(HttpMethod.POST,"/auth/authenticate").permitAll();
+//		authReqConfig.antMatchers(HttpMethod.GET,"/auth/validate-token").permitAll();
+//		
+//		/*
+//		 * Todos los demas endpoints deben ser con usuario logueado
+//		 */
+//		authReqConfig.anyRequest().authenticated();
+//	}
 
 //  AUTORIZACION DE SOLICITUDES HTTP REQUEST SEGUN ROLE .HASROLE() .HASANYROLE()
 //	private void buildRequestMatchers(

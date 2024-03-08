@@ -24,6 +24,8 @@ public enum Role {
 			,RolePermission.DISABLE_ONE_CATEGORY
 			
 			,RolePermission.READ_MY_PROFILE
+			
+			,RolePermission.CREATE_ONE_COSTUMER
 			))
 	
 	, ASSISTANT_ADMINISTRATOR(Arrays.asList(
