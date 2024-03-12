@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.cursos.api.springsecuritycourse.entity.User;
+import com.cursos.api.springsecuritycourse.entity.security.User;
 import com.cursos.api.springsecuritycourse.exception.ObjectNotFoundException;
 import com.cursos.api.springsecuritycourse.service.UserService;
 import com.cursos.api.springsecuritycourse.service.auth.JwtService;

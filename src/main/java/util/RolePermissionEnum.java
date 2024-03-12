@@ -3,7 +3,7 @@ package util;
 /*
  * Los casos de uso son los permisos segun el rol
  */
-public enum RolePermission {
+public enum RolePermissionEnum {
 
 	READ_ALL_PRODUCTS
 	, READ_ONE_PRODUCT

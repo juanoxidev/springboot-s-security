@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,12 +14,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.cursos.api.springsecuritycourse.config.security.filter.JwtAuthenticationFilter;
 
-import util.Role;
-import util.RolePermission;
+import util.RoleEnum;
+import util.RolePermissionEnum;
 
 @Configuration
 // Crea componentes y los configura por default. Ej el authentication configuration que se usa para devolver el authentication manager por defecto (provider manager)
@@ -42,6 +44,9 @@ public class HttpSecurityConfig {
 	@Autowired 
 	private AccessDeniedHandler accessDeniedHandler;
 	
+	@Autowired
+	private AuthorizationManager<RequestAuthorizationContext> authorizationManager;
+	
 	@Bean 
 	public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
 			
@@ -60,7 +65,8 @@ public class HttpSecurityConfig {
 
 		.authorizeHttpRequests(authReqConfig -> {
 		
-			buildRequestMatchers(authReqConfig);
+			authReqConfig.anyRequest().access(authorizationManager);
+//			buildRequestMatchers(authReqConfig);
 		
 		})
 		.exceptionHandling(authenticationConfig -> {
@@ -100,19 +106,19 @@ public class HttpSecurityConfig {
 		 */
 		
 		authReqConfig.antMatchers(HttpMethod.GET, "/products")
-		.hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+		.hasAnyRole(RoleEnum.ADMINISTRATOR.name(), RoleEnum.ASSISTANT_ADMINISTRATOR.name());
 		
 		authReqConfig.antMatchers(HttpMethod.GET, "/products/{productId}")
-		.hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+		.hasAnyRole(RoleEnum.ADMINISTRATOR.name(), RoleEnum.ASSISTANT_ADMINISTRATOR.name());
 		
 		authReqConfig.antMatchers(HttpMethod.POST, "/products")
-		.hasRole(Role.ADMINISTRATOR.name());
+		.hasRole(RoleEnum.ADMINISTRATOR.name());
 		
 		authReqConfig.antMatchers(HttpMethod.PUT, "/products/{productId}")
-		.hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+		.hasAnyRole(RoleEnum.ADMINISTRATOR.name(), RoleEnum.ASSISTANT_ADMINISTRATOR.name());
 		
 		authReqConfig.antMatchers(HttpMethod.PUT, "/products/{productId}/disabled")
-		.hasRole(Role.ADMINISTRATOR.name());
+		.hasRole(RoleEnum.ADMINISTRATOR.name());
 		
 		/*
 		 * Autorizacion de endpoints de categorias
@@ -120,19 +126,19 @@ public class HttpSecurityConfig {
 		 */
 		
 		authReqConfig.antMatchers(HttpMethod.GET, "/categories")
-		.hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+		.hasAnyRole(RoleEnum.ADMINISTRATOR.name(), RoleEnum.ASSISTANT_ADMINISTRATOR.name());
 		
 		authReqConfig.antMatchers(HttpMethod.GET, "/categories/{categoryId}")
-		.hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+		.hasAnyRole(RoleEnum.ADMINISTRATOR.name(), RoleEnum.ASSISTANT_ADMINISTRATOR.name());
 		
 		authReqConfig.antMatchers(HttpMethod.POST, "/categories")
-		.hasRole(Role.ADMINISTRATOR.name());
+		.hasRole(RoleEnum.ADMINISTRATOR.name());
 		
 		authReqConfig.antMatchers(HttpMethod.PUT, "/categories/{categoryId}")
-		.hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+		.hasAnyRole(RoleEnum.ADMINISTRATOR.name(), RoleEnum.ASSISTANT_ADMINISTRATOR.name());
 		
 		authReqConfig.antMatchers(HttpMethod.PUT, "/categories/{categoryId}/disabled")
-		.hasRole(Role.ADMINISTRATOR.name());
+		.hasRole(RoleEnum.ADMINISTRATOR.name());
 		
 		/*
 		 * Autorizacion de endpoint profile
@@ -140,7 +146,7 @@ public class HttpSecurityConfig {
 		 */
 		
 		authReqConfig.antMatchers(HttpMethod.GET, "/auth/profile")
-		.hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name(), Role.CUSTOMER.name());
+		.hasAnyRole(RoleEnum.ADMINISTRATOR.name(), RoleEnum.ASSISTANT_ADMINISTRATOR.name(), RoleEnum.CUSTOMER.name());
 		
 		/*
 		 * Endpoints publicos

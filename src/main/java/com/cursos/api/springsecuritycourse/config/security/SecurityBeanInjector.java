@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.cursos.api.springsecuritycourse.exception.ObjectNotFoundException;
-import com.cursos.api.springsecuritycourse.repository.UserRepository;
+import com.cursos.api.springsecuritycourse.repository.security.UserRepository;
 
 @Configuration
 public class SecurityBeanInjector {

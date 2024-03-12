@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationRequest;
 import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationResponse;
-import com.cursos.api.springsecuritycourse.entity.User;
+import com.cursos.api.springsecuritycourse.entity.security.User;
 import com.cursos.api.springsecuritycourse.service.auth.AuthenticationService;
 
 

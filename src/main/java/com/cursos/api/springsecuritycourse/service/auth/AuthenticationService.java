@@ -15,7 +15,7 @@ import com.cursos.api.springsecuritycourse.dto.RegisteredUser;
 import com.cursos.api.springsecuritycourse.dto.SaveUser;
 import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationRequest;
 import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationResponse;
-import com.cursos.api.springsecuritycourse.entity.User;
+import com.cursos.api.springsecuritycourse.entity.security.User;
 import com.cursos.api.springsecuritycourse.exception.ObjectNotFoundException;
 import com.cursos.api.springsecuritycourse.service.UserService;
 
@@ -41,7 +41,7 @@ public class AuthenticationService {
 		userDTO.setId(user.getId());
 		userDTO.setName(user.getName());
 		userDTO.setUsername(user.getUsername());
-		userDTO.setRole(user.getRole().name());
+		userDTO.setRole(user.getRole().getName());
 		String jwt = jwtService.generateToken(user, generateExtraClaims(user));
 		userDTO.setJwt(jwt);
 		return userDTO;
@@ -50,7 +50,7 @@ public class AuthenticationService {
 	private Map<String, Object> generateExtraClaims(User user) {
 		Map<String,Object> extraClaims = new HashMap<>();
 		extraClaims.put("name", user.getName());
-		extraClaims.put("role", user.getRole().name());
+		extraClaims.put("role", user.getRole().getName());
 		extraClaims.put("authorities", user.getAuthorities());
 		return extraClaims;
 		
@@ -82,15 +82,21 @@ public class AuthenticationService {
 		 * que se autentifique correctamente.
 		 */
 		UserDetails user = userService.findOneByUsername(authenticationRequest.getUsername()).get();
+		
+		User userForRole = (User) user;
 		/*
 		 * Creo el token para enviarselo en el auth Response.
 		 */
 		String jwt = jwtService.generateToken(user, generateExtraClaims((User) user)); 
+		
 		AuthenticationResponse authResponse = new AuthenticationResponse();
+		
 		authResponse.setJwt(jwt);
+		authResponse.setRole(userForRole.getRole().getName());
 		
 		return authResponse;
 	}
+
 /**
  * Valida que el formato del token sea correcto, pasar de base 64 debe devolver un json equivalente al header, al payload, valida que la firma coincida, que el token no haya expirado.
  * @param String jwt

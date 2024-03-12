@@ -1,4 +1,4 @@
-package com.cursos.api.springsecuritycourse.entity;
+package com.cursos.api.springsecuritycourse.entity.security;
 
 import java.util.Collection;
 import java.util.List;
@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;
-import util.Role;
+import util.RoleEnum;
 /*
  * 
  */
@@ -38,8 +38,10 @@ public class User implements UserDetails {
 	private String name;
 	
 	private String password;
-	
-	@Enumerated(EnumType.STRING)
+	// muchos usuarios van a tener 1 rol
+	@ManyToOne
+	//columna de la llave foranea
+	@JoinColumn(name= "role_id")
 	private Role role;
 	
 
@@ -56,14 +58,14 @@ public class User implements UserDetails {
 		if (role.getPermissions() == null) return null;
 		//repasar stream y lambda java
 		List<SimpleGrantedAuthority> authorities = role.getPermissions().stream()
-		.map(each -> each.name())
+		.map(each -> each.getOperation().getName())
 		.map(each -> new SimpleGrantedAuthority(each))
 		.collect(Collectors.toList());
 		/*
 		 * Agrego el rol del usuario a la lista de authorities para que el authorizationManager pueda comparar
 		 * el rol y verificar si el usuario segun su rol tiene acceso al endpoint/metodo protegido.
 		 */
-		authorities.add(new SimpleGrantedAuthority("ROLE_"+this.role.name()));
+		authorities.add(new SimpleGrantedAuthority("ROLE_"+this.role.getName()));
 		return authorities;
 /*			
  * 		Otra forma de hacerlo con 1 solo map

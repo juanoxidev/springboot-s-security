@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.cursos.api.springsecuritycourse.dto.SaveUser;
-import com.cursos.api.springsecuritycourse.entity.User;
+import com.cursos.api.springsecuritycourse.entity.security.Role;
+import com.cursos.api.springsecuritycourse.entity.security.User;
 import com.cursos.api.springsecuritycourse.exception.InvalidPasswordException;
-import com.cursos.api.springsecuritycourse.repository.UserRepository;
+import com.cursos.api.springsecuritycourse.exception.ObjectNotFoundException;
+import com.cursos.api.springsecuritycourse.repository.security.UserRepository;
+import com.cursos.api.springsecuritycourse.service.RoleService;
 import com.cursos.api.springsecuritycourse.service.UserService;
-
-import util.Role;
 
 @Service
 
@@ -23,14 +24,18 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private RoleService roleService;
 	
 	@Override
 	public User registerOneCustomer(SaveUser newUser) {
+
 		validatePassword(newUser);
 		User user = new User();
-		
 		user.setName(newUser.getName());
-		user.setRole(Role.CUSTOMER);
+		Role defaultRole = roleService.findDefaultRole()
+				.orElseThrow(() -> new ObjectNotFoundException("Role not found . Default Role"));
+		user.setRole(defaultRole);
 		user.setUsername(newUser.getUsername());
 		user.setPassword(passwordEncoder.encode(newUser.getPassword()));
 		return userRepository.save(user);

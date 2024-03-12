@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cursos.api.springsecuritycourse.dto.RegisteredUser;
 import com.cursos.api.springsecuritycourse.dto.SaveUser;
-import com.cursos.api.springsecuritycourse.entity.User;
+import com.cursos.api.springsecuritycourse.entity.security.User;
 import com.cursos.api.springsecuritycourse.service.auth.AuthenticationService;
 
 
