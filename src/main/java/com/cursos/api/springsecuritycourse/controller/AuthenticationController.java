@@ -20,6 +20,9 @@ import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationResponse;
 import com.cursos.api.springsecuritycourse.entity.security.User;
 import com.cursos.api.springsecuritycourse.service.auth.AuthenticationService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/auth")
@@ -27,12 +30,12 @@ public class AuthenticationController {
 
 	@Autowired 
 	private AuthenticationService authenticationService;
-	/**
-	 * Valida el token jwt
-	 * @param String
-	 * @return Boolean
-	 */
 
+	@ApiOperation(value = "Acá nombramos la operación", notes = "Podemos incluir una descripción más detallada que será útil al cliente")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK. El recurso se obtiene correctamente"),
+			@ApiResponse(code = 400, message = "Bad Request.Esta vez cambiamos el tipo de dato de la respuesta (String)", response = String.class),
+			@ApiResponse(code = 500, message = "Error inesperado del sistema") })
 	@GetMapping("/validate-token")
 	@PreAuthorize("permitAll")
 	public ResponseEntity<Boolean> validate (@RequestParam String jwt){
