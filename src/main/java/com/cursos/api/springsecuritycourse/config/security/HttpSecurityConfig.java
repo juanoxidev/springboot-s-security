@@ -69,7 +69,9 @@ public class HttpSecurityConfig {
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
 				.authorizeHttpRequests(authReqConfig -> {
-
+					authReqConfig.antMatchers("/swagger-ui/**").permitAll();
+					authReqConfig.antMatchers("/swagger-resources/**").permitAll();
+					authReqConfig.antMatchers("/v2/api-docs").permitAll();
 					authReqConfig.anyRequest().access(authorizationManager);
 					//			buildRequestMatchers(authReqConfig);
 

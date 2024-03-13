@@ -4,6 +4,7 @@ INSERT INTO module (name, base_path) VALUES ('CATEGORY', '/categories');
 INSERT INTO module (name, base_path) VALUES ('CUSTOMER', '/customers');
 INSERT INTO module (name, base_path) VALUES ('AUTH', '/auth');
 INSERT INTO module (name, base_path) VALUES ('GPERMISSION', '/gpermission');
+--INSERT INTO module (name, base_path) VALUES ('SWAGGER', '/swagger-ui');
 
 -- CREACIÓN DE OPERACIONES
 
@@ -36,6 +37,9 @@ INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('READ_ONE_PERMISSION','/[0-9]*','GET', false, 5);
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('CREATE_ONE_PERMISSION','','POST', false, 5);
 INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('DELETE_ONE_PERMISSION','/[0-9]*','DELETE', false, 5);
+
+---- GPERMISSION
+--INSERT INTO operation (name, path, http_method, permit_all, module_id) VALUES ('SWAGGER','/index.html/','GET', true, 6);
 
 -- CREACIÓN DE ROLES
 INSERT INTO role (name) VALUES ('CUSTOMER');
