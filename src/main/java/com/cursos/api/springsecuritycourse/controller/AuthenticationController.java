@@ -1,5 +1,6 @@
 package com.cursos.api.springsecuritycourse.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cursos.api.springsecuritycourse.dto.LogoutResponse;
 import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationRequest;
 import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationResponse;
 import com.cursos.api.springsecuritycourse.entity.security.User;
@@ -24,11 +26,11 @@ public class AuthenticationController {
 
 	@Autowired 
 	private AuthenticationService authenticationService;
-/**
- * Valida el token jwt
- * @param String
- * @return Boolean
- */
+	/**
+	 * Valida el token jwt
+	 * @param String
+	 * @return Boolean
+	 */
 
 	@GetMapping("/validate-token")
 	@PreAuthorize("permitAll")
@@ -46,12 +48,20 @@ public class AuthenticationController {
 	@PreAuthorize("permitAll")
 	public ResponseEntity<AuthenticationResponse> authenticate (
 			@RequestBody @Valid AuthenticationRequest authenticationRequest) {
-		
+
 		AuthenticationResponse rsp = authenticationService.login(authenticationRequest);
-		
+
 		return ResponseEntity.ok(rsp);
 	}
-	
+
+	@PostMapping("/logout")
+	public ResponseEntity<LogoutResponse> logout(HttpServletRequest request) {
+
+		authenticationService.logout(request);
+
+		return ResponseEntity.ok(new LogoutResponse("Logout exitoso"));
+	}
+
 	@PreAuthorize("hasAuthority('READ_MY_PROFILE')")
 	@GetMapping("/profile")
 	public ResponseEntity<User> findMyProfile(){
