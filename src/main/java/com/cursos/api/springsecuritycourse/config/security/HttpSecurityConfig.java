@@ -69,6 +69,7 @@ public class HttpSecurityConfig {
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
 				.authorizeHttpRequests(authReqConfig -> {
+					authReqConfig.antMatchers("/react/**").permitAll();
 					authReqConfig.antMatchers("/swagger-ui/**").permitAll();
 					authReqConfig.antMatchers("/swagger-resources/**").permitAll();
 					authReqConfig.antMatchers("/v2/api-docs").permitAll();
@@ -92,7 +93,7 @@ public class HttpSecurityConfig {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		// origines que pueden hacer request en nuestra app
-		configuration.setAllowedOrigins(Arrays.asList("https://www.google.com", "http://192.168.56.1:5500"));
+		configuration.setAllowedOrigins(Arrays.asList("*"));
 		// tipos de solicitudes http admitidas : todos *
 		configuration.setAllowedMethods(Arrays.asList("*"));
 		// Acepta todos los headers
